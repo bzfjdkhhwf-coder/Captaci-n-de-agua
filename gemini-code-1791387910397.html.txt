@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captación de Agua de Lluvia | Guanajuato 2025</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navegación Superior -->
+    <header class="navbar">
+        <div class="logo">
+            <span class="droplet-icon">💧</span> AgroAgua 2025
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#inicio">INICIO</a></li>
+                <li><a href="#precipitacion">PRECIPITACIÓN</a></li>
+                <li><a href="#captacion">CAPTACIÓN</a></li>
+                <li><a href="#cisterna">CISTERNA</a></li>
+                <li><a href="#aprovechamiento">RESULTADOS</a></li>
+                <li><a href="#records">RÉCORDS</a></li>
+                <li><a href="#comparacion">COMPARACIÓN</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- SECCIÓN 1: INICIO -->
+    <section id="inicio" class="hero-section">
+        <div class="hero-content">
+            <div class="location-badge">Guanajuato, México — Datos de precipitación 2025</div>
+            <h1>CAPTACIÓN DE AGUA DE LLUVIA</h1>
+            <p class="subtitle">Análisis del potencial de aprovechamiento de la precipitación registrada en 2025</p>
+            <a href="#precipitacion" class="btn-primary">EXPLORAR DATOS</a>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon">🌧️</div>
+                    <div class="stat-info">
+                        <h3>Precipitación Anual</h3>
+                        <p class="stat-value" id="hero-annual-precip">689.35 <small>mm</small></p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">📅</div>
+                    <div class="stat-info">
+                        <h3>Días con Lluvia</h3>
+                        <p class="stat-value" id="hero-rainy-days">69 <small>días</small></p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">🏆</div>
+                    <div class="stat-info">
+                        <h3>Mes más Lluvioso</h3>
+                        <p class="stat-value" id="hero-max-month">Junio <small>(207.2 mm)</small></p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">💧</div>
+                    <div class="stat-info">
+                        <h3>Máximo Diario</h3>
+                        <p class="stat-value" id="hero-max-daily">64.30 <small>mm</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+
+        <!-- SECCIÓN 2: PRECIPITACIÓN -->
+        <section id="precipitacion" class="section-block">
+            <h2 class="section-title">PRECIPITACIÓN 2025</h2>
+            <p class="section-desc">Análisis pluviométrico mensual obtenido de los registros meteorológicos diarios.</p>
+            
+            <div class="chart-card">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+
+            <div class="month-inspector">
+                <h3>Detalle por Mes</h3>
+                <div class="month-selector-btns" id="monthButtons">
+                    <!-- Los botones de los meses se generan con JavaScript -->
+                </div>
+
+                <div class="month-detail-card" id="monthDetailDisplay">
+                    <div class="month-header">
+                        <h4 id="selectedMonthName">JUNIO 2025</h4>
+                        <span class="badge" id="monthBadge">Alta precipitación</span>
+                    </div>
+                    <div class="month-metrics">
+                        <div class="metric">
+                            <span>Precipitación acumulada:</span>
+                            <strong id="mAcc">207.16 mm</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Días con lluvia:</span>
+                            <strong id="mRainDays">15 días</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Mayor precipitación diaria:</span>
+                            <strong id="mMaxDay">54.40 mm</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Fecha del máximo:</span>
+                            <strong id="mMaxDate">3 de Junio</strong>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" id="openModalBtn">VER DATOS DIARIOS</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: CALCULADORA DE CAPTACIÓN -->
+        <section id="captacion" class="section-block">
+            <h2 class="section-title">CALCULADORA DE CAPTACIÓN</h2>
+            <p class="section-desc">Calcula el volumen potencial de agua cosechada según las características de tu infraestructura.</p>
+
+            <div class="grid-2col">
+                <div class="card inputs-card">
+                    <h3>Parámetros del Sistema</h3>
+                    <div class="input-group">
+                        <label for="roofArea">Área del Techo (m²):</label>
+                        <input type="number" id="roofArea" value="100" min="1" max="10000" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label for="runoffCoeff">Coeficiente de Escurrimiento (C):</label>
+                        <select id="runoffCoeff">
+                            <option value="0.90">Lámina Metálica / Teja esmaltada (0.90)</option>
+                            <option value="0.80" selected>Concreto / Losa Impermeabilizada (0.80)</option>
+                            <option value="0.70">Teja de arcilla tradicional (0.70)</option>
+                            <option value="0.60">Suelo compactado / Otros (0.60)</option>
+                        </select>
+                    </div>
+                    <div class="formula-box">
+                        <small><strong>Fórmula utilizada:</strong><br>
+                        Agua Captada (L) = Precipitación (mm) × Área (m²) × Coeficiente</small>
+                    </div>
+                </div>
+
+                <div class="card results-summary-card">
+                    <h3>Potencial Estimado de Cosecha</h3>
+                    <div class="res-highlight">
+                        <span>Captación Anual Total</span>
+                        <h2 id="calcAnnualLitres">0 L</h2>
+                        <p id="calcAnnualM3">(0 m³)</p>
+                    </div>
+                    <div class="res-row">
+                        <div>
+                            <span>Mes con mayor captación:</span>
+                            <strong id="calcMaxMonth">Junio</strong>
+                        </div>
+                        <div>
+                            <span>Mes con menor captación:</span>
+                            <strong id="calcMinMonth">Marzo / Abril / Nov.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>Potencial de Captación Mensual (Litros)</h3>
+                <canvas id="harvestChart"></canvas>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: SIMULADOR DE CISTERNA -->
+        <section id="cisterna" class="section-block">
+            <h2 class="section-title">SIMULADOR DE CISTERNA</h2>
+            <p class="section-desc">Evalúa si la capacidad de tu tanque o cisterna es adecuada para almacenar el agua del mes seleccionado.</p>
+
+            <div class="grid-2col">
+                <div class="card">
+                    <h3>Dimensionamiento</h3>
+                    <div class="input-group">
+                        <label for="tankCapacity">Capacidad de la Cisterna (Litros):</label>
+                        <input type="number" id="tankCapacity" value="10000" step="500" min="500">
+                    </div>
+                    <div class="input-group">
+                        <label for="cisternMonthSelect">Selecciona el Mes a Evaluar:</label>
+                        <select id="cisternMonthSelect"></select>
+                    </div>
+
+                    <div class="simulation-verdict" id="cisternVerdictBox">
+                        <!-- El texto del veredicto dinámico se inserta aquí -->
+                    </div>
+                </div>
+
+                <div class="card visual-cistern-card">
+                    <h3>Representación Visual de la Cisterna</h3>
+                    <div class="cistern-container">
+                        <div class="cistern-tank">
+                            <div class="water-level" id="waterLevelBar" style="height: 0%;">
+                                <span class="water-percentage" id="waterPercentageText">0%</span>
+                            </div>
+                        </div>
+                        <div class="cistern-info">
+                            <p>Agua Captada en el Mes: <strong id="cisternMonthWater">0 L</strong></p>
+                            <p>Capacidad del Tanque: <strong id="cisternTotalCap">10,000 L</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: ¿CUÁNTA AGUA PUEDO APROVECHAR? -->
+        <section id="aprovechamiento" class="section-block section-highlight">
+            <h2 class="section-title">¿CUÁNTA AGUA PUEDO APROVECHAR?</h2>
+            <div class="cards-grid-4">
+                <div class="mini-card">
+                    <span class="icon">💧</span>
+                    <h4>Captación Anual</h4>
+                    <p id="resAnualL">0 L</p>
+                </div>
+                <div class="mini-card">
+                    <span class="icon">🌧️</span>
+                    <h4>Mes de Pico</h4>
+                    <p id="resMesPico">Junio</p>
+                </div>
+                <div class="mini-card">
+                    <span class="icon">🏠</span>
+                    <h4>Área de Techo</h4>
+                    <p id="resAreaTecho">100 m²</p>
+                </div>
+                <div class="mini-card">
+                    <span class="icon">🚰</span>
+                    <h4>Cisterna</h4>
+                    <p id="resCapCisterna">10,000 L</p>
+                </div>
+            </div>
+
+            <div class="conclusion-box">
+                <h3>Conclusión Técnica</h3>
+                <p id="conclusionText">Cargando análisis...</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: RÉCORDS DE PRECIPITACIÓN -->
+        <section id="records" class="section-block">
+            <h2 class="section-title">RÉCORDS DE PRECIPITACIÓN</h2>
+            <div class="records-grid">
+                <div class="record-card">
+                    <div class="rec-icon">🏆</div>
+                    <h4>Día más lluvioso</h4>
+                    <p class="rec-main">23 de Agosto</p>
+                    <span class="rec-sub">64.30 mm en 24 horas</span>
+                </div>
+                <div class="record-card">
+                    <div class="rec-icon">🌧️</div>
+                    <h4>Mes más lluvioso</h4>
+                    <p class="rec-main">Junio</p>
+                    <span class="rec-sub">207.16 mm acumulados</span>
+                </div>
+                <div class="record-card">
+                    <div class="rec-icon">☀️</div>
+                    <h4>Mes más seco</h4>
+                    <p class="rec-main">Marzo / Abril / Nov.</p>
+                    <span class="rec-sub">0.00 mm de precipitación</span>
+                </div>
+                <div class="record-card">
+                    <div class="rec-icon">💧</div>
+                    <h4>Mayor captación potencial</h4>
+                    <p class="rec-main" id="recMaxHarvest">0 L</p>
+                    <span class="rec-sub" id="recMaxHarvestSub">Ocurre durante Junio</span>
+                </div>
+                <div class="record-card">
+                    <div class="rec-icon">📅</div>
+                    <h4>Días de lluvia (Máx)</h4>
+                    <p class="rec-main">15 Días</p>
+                    <span class="rec-sub">Registrados en Junio</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 7: COMPARACIÓN MENSUAL -->
+        <section id="comparacion" class="section-block">
+            <h2 class="section-title">COMPARACIÓN MENSUAL</h2>
+            <p class="section-desc">Relación directa entre la lluvia caída (mm) y el agua aprovechada (Litros).</p>
+
+            <div class="chart-card">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal de Datos Diarios -->
+    <div class="modal" id="dailyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Registro Diario - Junio 2025</h3>
+                <span class="close-btn" id="closeModalBtn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Precipitación (mm)</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dailyTableBody">
+                        <!-- Las filas se insertan dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Proyecto de Agronomía — Captación de Agua de Lluvia 2025 | Guanajuato, México</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
